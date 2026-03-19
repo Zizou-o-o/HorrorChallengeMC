@@ -12,7 +12,7 @@ public class JumpTriger : MonoBehaviour
     {
         //scream.Play();
         jumpCamera.SetActive(true);
-        player.SetActive(false);
+        player.SetActive(true);
         flashImg.SetActive(true);
         StartCoroutine(EndJump());
     

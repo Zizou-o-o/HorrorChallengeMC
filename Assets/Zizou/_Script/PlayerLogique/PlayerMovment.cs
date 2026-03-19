@@ -4,20 +4,26 @@ public class PlayerMovment : MonoBehaviour
 {
     public CharacterController controlle;
     public float speed = 12f;
+    private float verticalVelocity = 0f;
+    private float gravity = -9.81f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-
         Vector3 move = transform.right * x + transform.forward * z;
+
+        // Gravity
+        if (controlle.isGrounded)
+        {
+            verticalVelocity = -1f; // keeps grounded
+        }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime; // falls down
+        }
+
+        move.y = verticalVelocity;
         controlle.Move(move * speed * Time.deltaTime);
     }
 }
