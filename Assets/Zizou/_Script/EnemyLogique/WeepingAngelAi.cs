@@ -10,12 +10,16 @@ public class WeepingAngelAi : MonoBehaviour
     NavMeshAgent agent;
     Transform player;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool wasMoving = false;
+    private AudioSource audioSource;        
+
     void Start()
     {
         agent = this.gameObject.GetComponent<NavMeshAgent>();
         player = GameObject.Find("FirstPersonPlayer").transform;
+        audioSource = GetComponent<AudioSource>(); 
     }
+
     private bool CanMove()
     {
         if (boundingArea.isVisible)
@@ -24,16 +28,31 @@ public class WeepingAngelAi : MonoBehaviour
         }
         return true;
     }
-    // Update is called once per frame
+
     void Update()
     {
-            if (CanMove())
+        
+        if (!agent.isOnNavMesh || !agent.isActiveAndEnabled) return;
+
+        if (CanMove())
+        {
+            agent.destination = player.position;
+
+            if (!wasMoving)
             {
-                agent.destination = player.position;
+                audioSource.Play();         
+                wasMoving = true;
             }
-            else
+        }
+        else
+        {
+            agent.destination = this.transform.position;
+
+            if (wasMoving)
             {
-                agent.destination = this.transform.position;
+                audioSource.Stop();         
+                wasMoving = false;
             }
+        }
     }
 }
