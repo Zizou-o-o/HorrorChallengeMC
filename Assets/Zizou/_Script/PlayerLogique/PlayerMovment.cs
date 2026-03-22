@@ -6,12 +6,12 @@ public class PlayerMovment : MonoBehaviour
     public float speed = 12f;
     private float verticalVelocity = 0f;
     private float gravity = -9.81f;
-    public Vector3 move;
+
     void Update()
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-        move = transform.right * x + transform.forward * z;
+        Vector3 move = transform.right * x + transform.forward * z;
 
         // Gravity
         if (controlle.isGrounded)
